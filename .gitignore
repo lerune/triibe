@@ -1,15 +1,20 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+/triibe-client/node_modules
+/triibe-client/.pnp
+/triibe-client/.pnp.js
+/triibe-server/node_modules
+/triibe-server/.pnp
+/triibe-server/.pnp.js
 
 # testing
-/coverage
+/triibe-client/coverage
+/triibe-server/coverage
 
 # production
-/build
+/triibe-client/build
+/triibe-server/build
 
 # misc
 .DS_Store

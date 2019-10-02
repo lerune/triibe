@@ -1,0 +1,27 @@
+type User {
+  id: ID! @id
+  email: String! @unique
+  name: String!
+  password: String! 
+}
+
+type Contact {
+  id: ID! @id
+  email: String! @unique
+  name: String!
+  profession: String
+}
+
+type Message {
+  id: ID! @id
+  content: String!
+  createdAt: DateTime! @createdAt
+  sentBy: User! @relation
+}
+
+type Chat {
+  id: ID! @id
+  messages: [Message!]!
+  users: [User!]
+}
+
