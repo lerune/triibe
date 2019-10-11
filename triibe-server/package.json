@@ -1,20 +1,17 @@
 {
-  "name": "server",
+  "name": "script",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "cookie-parser": "^1.4.4",
-    "cors": "^2.8.5",
     "graphql-yoga": "^1.18.3",
-    "jsonwebtoken": "^8.5.1",
-    "prisma-client-lib": "^1.34.8"
+    "nexus": "0.12.0-beta.9",
+    "nexus-prisma": "0.0.1-beta.7"
+  },
+  "devDependencies": {
+    "prisma2": "2.0.0-alpha.160"
+  },
+  "scripts": {
+    "dev": "node ./index.js",
+    "postinstall": "prisma2 generate"
   }
 }
