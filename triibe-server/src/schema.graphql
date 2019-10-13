@@ -28,6 +28,62 @@ input ChatCreateWithoutUsersInput {
   messages: MessageCreateManyWithoutMessagesInput
 }
 
+input ChatUpdateManyDataInput {
+  id: ID
+}
+
+input ChatUpdateManyWithoutUsersInput {
+  connect: [ChatWhereUniqueInput!]
+  create: [ChatCreateWithoutUsersInput!]
+  delete: [ChatWhereUniqueInput!]
+  deleteMany: [MutationUpdateOneUserWhereInput!]
+  disconnect: [ChatWhereUniqueInput!]
+  set: [ChatWhereUniqueInput!]
+  update: [ChatUpdateWithWhereUniqueWithoutUsersInput!]
+  updateMany: [ChatUpdateManyWithWhereNestedInput!]
+  upsert: [ChatUpsertWithWhereUniqueWithoutUsersInput!]
+}
+
+input ChatUpdateManyWithWhereNestedInput {
+  data: ChatUpdateManyDataInput!
+  where: MutationUpdateOneUserWhereInput!
+}
+
+input ChatUpdateOneWithoutMessagesInput {
+  connect: ChatWhereUniqueInput
+  create: ChatCreateWithoutMessagesInput
+  delete: Boolean
+  disconnect: Boolean
+  update: ChatUpdateWithoutMessagesDataInput
+  upsert: ChatUpsertWithoutMessagesInput
+}
+
+input ChatUpdateWithoutMessagesDataInput {
+  id: ID
+  users: UserUpdateManyWithoutChatsInput
+}
+
+input ChatUpdateWithoutUsersDataInput {
+  id: ID
+  messages: MessageUpdateManyWithoutChatInput
+}
+
+input ChatUpdateWithWhereUniqueWithoutUsersInput {
+  data: ChatUpdateWithoutUsersDataInput!
+  where: ChatWhereUniqueInput!
+}
+
+input ChatUpsertWithoutMessagesInput {
+  create: ChatCreateWithoutMessagesInput!
+  update: ChatUpdateWithoutMessagesDataInput!
+}
+
+input ChatUpsertWithWhereUniqueWithoutUsersInput {
+  create: ChatCreateWithoutUsersInput!
+  update: ChatUpdateWithoutUsersDataInput!
+  where: ChatWhereUniqueInput!
+}
+
 input ChatWhereUniqueInput {
   id: ID
 }
@@ -66,18 +122,113 @@ input MessageCreateWithoutSentByInput {
   sentAt: DateTime
 }
 
+input MessageUpdateManyDataInput {
+  content: String
+  id: ID
+  sentAt: DateTime
+}
+
+input MessageUpdateManyWithoutChatInput {
+  connect: [MessageWhereUniqueInput!]
+  create: [MessageCreateWithoutChatInput!]
+  delete: [MessageWhereUniqueInput!]
+  deleteMany: [MutationUpdateOneUserWhereInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  set: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueWithoutChatInput!]
+  updateMany: [MessageUpdateManyWithWhereNestedInput!]
+  upsert: [MessageUpsertWithWhereUniqueWithoutChatInput!]
+}
+
+input MessageUpdateManyWithWhereNestedInput {
+  data: MessageUpdateManyDataInput!
+  where: MutationUpdateOneUserWhereInput!
+}
+
+input MessageUpdateOneWithoutSentByInput {
+  connect: MessageWhereUniqueInput
+  create: MessageCreateWithoutSentByInput
+  delete: Boolean
+  disconnect: Boolean
+  update: MessageUpdateWithoutSentByDataInput
+  upsert: MessageUpsertWithoutSentByInput
+}
+
+input MessageUpdateWithoutChatDataInput {
+  content: String
+  id: ID
+  sentAt: DateTime
+  sentBy: UserUpdateOneRequiredWithoutMessageInput
+}
+
+input MessageUpdateWithoutSentByDataInput {
+  chat: ChatUpdateOneWithoutMessagesInput
+  content: String
+  id: ID
+  sentAt: DateTime
+}
+
+input MessageUpdateWithWhereUniqueWithoutChatInput {
+  data: MessageUpdateWithoutChatDataInput!
+  where: MessageWhereUniqueInput!
+}
+
+input MessageUpsertWithoutSentByInput {
+  create: MessageCreateWithoutSentByInput!
+  update: MessageUpdateWithoutSentByDataInput!
+}
+
+input MessageUpsertWithWhereUniqueWithoutChatInput {
+  create: MessageCreateWithoutChatInput!
+  update: MessageUpdateWithoutChatDataInput!
+  where: MessageWhereUniqueInput!
+}
+
 input MessageWhereUniqueInput {
   id: ID
 }
 
 type Mutation {
-  deleteOneUser(where: UserWhereUniqueInput!): User
-  signUpUser(data: UserCreateInput!): User!
+  createChat(users: [ID!]): Chat!
+  createOneUser(data: UserCreateInput!): User!
+  postMessage(content: String, sentBy: ID, sentTo: ID): Message!
+  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+}
+
+input MutationUpdateOneUserFilter {
+  every: MutationUpdateOneUserWhereInput
+  none: MutationUpdateOneUserWhereInput
+  some: MutationUpdateOneUserWhereInput
+}
+
+input MutationUpdateOneUserWhereInput {
+  AND: [MutationUpdateOneUserWhereInput!]
+  id: StringFilter
+  messages: MutationUpdateOneUserFilter
+  NOT: [MutationUpdateOneUserWhereInput!]
+  OR: [MutationUpdateOneUserWhereInput!]
+  users: MutationUpdateOneUserFilter
 }
 
 type Query {
+  chat(where: ChatWhereUniqueInput!): Chat
+  chats(after: String, before: String, first: Int, last: Int, skip: Int): [Chat!]
   user(where: UserWhereUniqueInput!): User
   users(after: String, before: String, first: Int, last: Int, skip: Int): [User!]
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: String
+  notIn: [String!]
+  startsWith: String
 }
 
 type User {
@@ -117,6 +268,74 @@ input UserCreateWithoutMessageInput {
   email: String!
   id: ID
   name: String
+}
+
+input UserUpdateInput {
+  chats: ChatUpdateManyWithoutUsersInput
+  email: String
+  id: ID
+  message: MessageUpdateOneWithoutSentByInput
+  name: String
+}
+
+input UserUpdateManyDataInput {
+  email: String
+  id: ID
+  name: String
+}
+
+input UserUpdateManyWithoutChatsInput {
+  connect: [UserWhereUniqueInput!]
+  create: [UserCreateWithoutChatsInput!]
+  delete: [UserWhereUniqueInput!]
+  deleteMany: [MutationUpdateOneUserWhereInput!]
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutChatsInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutChatsInput!]
+}
+
+input UserUpdateManyWithWhereNestedInput {
+  data: UserUpdateManyDataInput!
+  where: MutationUpdateOneUserWhereInput!
+}
+
+input UserUpdateOneRequiredWithoutMessageInput {
+  connect: UserWhereUniqueInput
+  create: UserCreateWithoutMessageInput
+  update: UserUpdateWithoutMessageDataInput
+  upsert: UserUpsertWithoutMessageInput
+}
+
+input UserUpdateWithoutChatsDataInput {
+  email: String
+  id: ID
+  message: MessageUpdateOneWithoutSentByInput
+  name: String
+}
+
+input UserUpdateWithoutMessageDataInput {
+  chats: ChatUpdateManyWithoutUsersInput
+  email: String
+  id: ID
+  name: String
+}
+
+input UserUpdateWithWhereUniqueWithoutChatsInput {
+  data: UserUpdateWithoutChatsDataInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserUpsertWithoutMessageInput {
+  create: UserCreateWithoutMessageInput!
+  update: UserUpdateWithoutMessageDataInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutChatsInput {
+  create: UserCreateWithoutChatsInput!
+  update: UserUpdateWithoutChatsDataInput!
+  where: UserWhereUniqueInput!
 }
 
 input UserWhereUniqueInput {

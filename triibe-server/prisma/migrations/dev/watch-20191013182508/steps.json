@@ -1,0 +1,25 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "stepType": "CreateField",
+      "model": "User",
+      "name": "messages",
+      "type": {
+        "Relation": {
+          "to": "Message",
+          "to_fields": [],
+          "name": "MessageToUser",
+          "on_delete": "None"
+        }
+      },
+      "arity": "list",
+      "isUnique": false
+    },
+    {
+      "stepType": "DeleteField",
+      "model": "User",
+      "name": "message"
+    }
+  ]
+}
