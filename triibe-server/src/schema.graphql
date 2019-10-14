@@ -103,11 +103,6 @@ input MessageCreateManyWithoutMessagesInput {
   create: [MessageCreateWithoutChatInput!]
 }
 
-input MessageCreateOneWithoutMessageInput {
-  connect: MessageWhereUniqueInput
-  create: MessageCreateWithoutSentByInput
-}
-
 input MessageCreateWithoutChatInput {
   content: String!
   id: ID
@@ -140,25 +135,28 @@ input MessageUpdateManyWithoutChatInput {
   upsert: [MessageUpsertWithWhereUniqueWithoutChatInput!]
 }
 
+input MessageUpdateManyWithoutSentByInput {
+  connect: [MessageWhereUniqueInput!]
+  create: [MessageCreateWithoutSentByInput!]
+  delete: [MessageWhereUniqueInput!]
+  deleteMany: [MutationUpdateOneUserWhereInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  set: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueWithoutSentByInput!]
+  updateMany: [MessageUpdateManyWithWhereNestedInput!]
+  upsert: [MessageUpsertWithWhereUniqueWithoutSentByInput!]
+}
+
 input MessageUpdateManyWithWhereNestedInput {
   data: MessageUpdateManyDataInput!
   where: MutationUpdateOneUserWhereInput!
-}
-
-input MessageUpdateOneWithoutSentByInput {
-  connect: MessageWhereUniqueInput
-  create: MessageCreateWithoutSentByInput
-  delete: Boolean
-  disconnect: Boolean
-  update: MessageUpdateWithoutSentByDataInput
-  upsert: MessageUpsertWithoutSentByInput
 }
 
 input MessageUpdateWithoutChatDataInput {
   content: String
   id: ID
   sentAt: DateTime
-  sentBy: UserUpdateOneRequiredWithoutMessageInput
+  sentBy: UserUpdateOneRequiredWithoutMessagesInput
 }
 
 input MessageUpdateWithoutSentByDataInput {
@@ -173,14 +171,20 @@ input MessageUpdateWithWhereUniqueWithoutChatInput {
   where: MessageWhereUniqueInput!
 }
 
-input MessageUpsertWithoutSentByInput {
-  create: MessageCreateWithoutSentByInput!
-  update: MessageUpdateWithoutSentByDataInput!
+input MessageUpdateWithWhereUniqueWithoutSentByInput {
+  data: MessageUpdateWithoutSentByDataInput!
+  where: MessageWhereUniqueInput!
 }
 
 input MessageUpsertWithWhereUniqueWithoutChatInput {
   create: MessageCreateWithoutChatInput!
   update: MessageUpdateWithoutChatDataInput!
+  where: MessageWhereUniqueInput!
+}
+
+input MessageUpsertWithWhereUniqueWithoutSentByInput {
+  create: MessageCreateWithoutSentByInput!
+  update: MessageUpdateWithoutSentByDataInput!
   where: MessageWhereUniqueInput!
 }
 
@@ -242,7 +246,7 @@ input UserCreateInput {
   chats: ChatCreateManyWithoutChatsInput
   email: String!
   id: ID
-  message: MessageCreateOneWithoutMessageInput
+  messages: MessageCreateManyWithoutMessagesInput
   name: String
 }
 
@@ -253,17 +257,17 @@ input UserCreateManyWithoutUsersInput {
 
 input UserCreateOneWithoutSentByInput {
   connect: UserWhereUniqueInput
-  create: UserCreateWithoutMessageInput
+  create: UserCreateWithoutMessagesInput
 }
 
 input UserCreateWithoutChatsInput {
   email: String!
   id: ID
-  message: MessageCreateOneWithoutMessageInput
+  messages: MessageCreateManyWithoutMessagesInput
   name: String
 }
 
-input UserCreateWithoutMessageInput {
+input UserCreateWithoutMessagesInput {
   chats: ChatCreateManyWithoutChatsInput
   email: String!
   id: ID
@@ -274,7 +278,7 @@ input UserUpdateInput {
   chats: ChatUpdateManyWithoutUsersInput
   email: String
   id: ID
-  message: MessageUpdateOneWithoutSentByInput
+  messages: MessageUpdateManyWithoutSentByInput
   name: String
 }
 
@@ -301,21 +305,21 @@ input UserUpdateManyWithWhereNestedInput {
   where: MutationUpdateOneUserWhereInput!
 }
 
-input UserUpdateOneRequiredWithoutMessageInput {
+input UserUpdateOneRequiredWithoutMessagesInput {
   connect: UserWhereUniqueInput
-  create: UserCreateWithoutMessageInput
-  update: UserUpdateWithoutMessageDataInput
-  upsert: UserUpsertWithoutMessageInput
+  create: UserCreateWithoutMessagesInput
+  update: UserUpdateWithoutMessagesDataInput
+  upsert: UserUpsertWithoutMessagesInput
 }
 
 input UserUpdateWithoutChatsDataInput {
   email: String
   id: ID
-  message: MessageUpdateOneWithoutSentByInput
+  messages: MessageUpdateManyWithoutSentByInput
   name: String
 }
 
-input UserUpdateWithoutMessageDataInput {
+input UserUpdateWithoutMessagesDataInput {
   chats: ChatUpdateManyWithoutUsersInput
   email: String
   id: ID
@@ -327,9 +331,9 @@ input UserUpdateWithWhereUniqueWithoutChatsInput {
   where: UserWhereUniqueInput!
 }
 
-input UserUpsertWithoutMessageInput {
-  create: UserCreateWithoutMessageInput!
-  update: UserUpdateWithoutMessageDataInput!
+input UserUpsertWithoutMessagesInput {
+  create: UserCreateWithoutMessagesInput!
+  update: UserUpdateWithoutMessagesDataInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutChatsInput {
